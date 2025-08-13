@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-homework-13---middleware",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "dev": "nodemon script.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
