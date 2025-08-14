@@ -15,8 +15,7 @@ app.get('/', async (req, res) => {
         'Cache-Control': 'no-store',
         'Content-type': 'text/html'
     })
-    res.status(200)
-    res.sendFile(path.join(__dirname, 'pages', 'index.html'))
+    res.status(200).sendFile(path.join(__dirname, 'pages', 'index.html'))
 })
 
 app.get('/api/users', setHeader, readData, async (req, res) => {
@@ -60,4 +59,9 @@ app.post('/api/users', [setHeader, readData, checkMail, checkPass], async (req, 
 app.post('/login', setHeader, checkLogin, (req, res) => {
     res.status(200).json({ welcome: "Duq hajoxutyamb mutq gorceciq" })
 })
+
+app.use(async (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'pages', 'errors.html'))
+})
+
 app.listen(3000)
