@@ -6,10 +6,10 @@ const { setHeader } = require('./middleware/setHeader')
 const { checkMail } = require('./middleware/checkMail')
 const { checkPass } = require('./middleware/checkPass')
 const { checkLogin } = require('./middleware/checkLogin')
+const { deleteUser } = require('./middleware/deleteUser')
 
 const app = express()
 app.use(express.json())
-
 app.get('/', async (req, res) => {
     res.set({
         'Cache-Control': 'no-store',
@@ -58,6 +58,17 @@ app.post('/api/users', [setHeader, readData, checkMail, checkPass], async (req, 
 
 app.post('/login', setHeader, checkLogin, (req, res) => {
     res.status(200).json({ welcome: "Duq hajoxutyamb mutq gorceciq" })
+})
+
+app.delete('/api/users/:id', readData, deleteUser, async (req, res) => {
+    const { users } = res.locals
+    const { id } = req.params
+    const userInd = users.findIndex(user => user.id == id)
+    users.splice(userInd, 1)
+    await fs.unlink(path.join(__dirname, 'db', 'users.json'))
+    await fs.appendFile(path.join(__dirname, 'db', 'users.json'), JSON.stringify(users))
+    res.status(200).json(users)
+
 })
 
 app.use(async (req, res) => {
